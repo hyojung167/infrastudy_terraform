@@ -29,4 +29,13 @@ variable "tenant_id" {
     type        = string
 }
 
+variable "agw_cert_password" {
+    description = "The password for the Application Gateway certificate. (https only)"
+    type        = string
+    sensitive = true
+  
+}
+
+
+
 

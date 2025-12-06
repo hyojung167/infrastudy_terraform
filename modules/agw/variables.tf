@@ -31,3 +31,13 @@ variable "capacity" {
     type = number
     default = 4
 }
+
+variable "managed_identity_id" {
+    description = "The ID of the managed identity to be associated with the Application Gateway."
+    type        = string
+}
+
+variable "agw_cert_secret_id" {
+    description = "The secret ID of the Application Gateway certificate in Key Vault."
+    type        = string
+}

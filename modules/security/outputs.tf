@@ -17,3 +17,8 @@ output "key_vault_url" {
     description = "The URL of the Key Vault."
     value       = azurerm_key_vault.key_vault.vault_uri
 }
+
+output "agw_cert_secret_id" {
+    description = "The secret ID of the Application Gateway certificate(PFX) in Key Vault."
+    value       = azurerm_key_vault_certificate.agw_cert.secret_id
+}

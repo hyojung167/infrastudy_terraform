@@ -8,6 +8,10 @@ terraform {
       source  = "hashicorp/null"
       version = "~> 3.0"
     }
+     time = {
+      source  = "hashicorp/time"
+      version = "~> 0.11"
+    }
   }
 }
 
@@ -122,6 +126,9 @@ module "agw" {
 
   project_name = var.project_name
   subnet_id    = module.network.subnet_ids["subnet-agw"]
+
+  agw_cert_secret_id   = module.security.agw_cert_secret_id
+  managed_identity_id  = module.security.managed_identity_id
 }
 
 
@@ -145,6 +152,7 @@ module "security" {
   project_name = var.project_name
   tenant_id    = var.tenant_id
   managed_identity_name = "managed-${var.project_name}-identity"
+  agw_cert_password = var.agw_cert_password
 }
 
 module "openai" {

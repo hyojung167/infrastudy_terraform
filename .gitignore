@@ -8,3 +8,16 @@ crash.log
 crash.*.log
 *.tfvars
 *.tfvars.json
+*.env
+*.envrc
+
+# 인증서 및 민감 파일 무조건 차단
+certs/
+*.pem
+*.key
+*.pfx
+*.crt
+
+# Private key 유출 방지
+*private*
+*privkey*

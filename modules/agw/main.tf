@@ -10,10 +10,21 @@ resource "azurerm_application_gateway" "agw" {
     name                = "agw-${var.project_name}"
     location            = var.location
     resource_group_name = var.resource_group_name
+
+    identity {
+        type = "UserAssigned"
+        identity_ids = [var.managed_identity_id]
+    }
     
+
+    ssl_certificate {
+        name                = "agw-ssl-cert"
+        key_vault_secret_id = var.agw_cert_secret_id
+    }
+
     sku {
-        name     = "Standard_Small"
-        tier     = "Standard"
+        name     = "Standard_v2"
+        tier     = "Standard_v2"
         capacity = 2
     }
     
@@ -23,8 +34,8 @@ resource "azurerm_application_gateway" "agw" {
     }
     
     frontend_port {
-        name = "agw-frontend-port"
-        port = 80
+        name = "agw-frontend-port-https"
+        port = 443
     }
     
     frontend_ip_configuration {
@@ -58,16 +69,17 @@ resource "azurerm_application_gateway" "agw" {
     }
 
     http_listener {
-        name                           = "agw-http-listener"
+        name                           = "agw-https-listener"
         frontend_ip_configuration_name = "agw-frontend-ip"
-        frontend_port_name             = "agw-frontend-port"
-        protocol                       = "Http"
+        frontend_port_name             = "agw-frontend-port-https"
+        protocol                       = "Https"
+        ssl_certificate_name           = "agw-ssl-cert"
     }
 
     request_routing_rule {
         name                       = "agw-routing-rule"
         rule_type                  = "Basic"
-        http_listener_name         = "agw-http-listener"
+        http_listener_name         = "agw-https-listener"
         backend_address_pool_name  = "agw-backend-pool"
         backend_http_settings_name = "agw-backend-http"
         priority                   = 100

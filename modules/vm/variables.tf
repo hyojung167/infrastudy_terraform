@@ -61,7 +61,7 @@ variable "create_public_ip" {
 variable "project_name" {
     description = "The name of the project"
     type        = string
-    default = "infrastudy"
+    default = "keepwise"
 }
 
 variable "public_lp_id" {
